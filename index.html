@@ -3,11 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Retro Bowl - Unlimited Coins</title>
+    <title>Retro Bowl - FULLY MODDED</title>
     <style>
-        body { background: #000; margin: 0; padding: 0; overflow: hidden; }
-        canvas { image-rendering: pixelated; width: 100%; height: 100%; }
-        #canvas { display: block; }
+        body, html { margin:0; padding:0; height:100%; overflow:hidden; background:#000; }
+        canvas { display:block; image-rendering:pixelated; }
     </style>
 </head>
 <body>
@@ -15,40 +14,69 @@
         <canvas id="canvas" width="853" height="480"></canvas>
     </div>
 
-    <!-- Load Game -->
     <script src="html5game/RetroBowl.js"></script>
 
-    <!-- UNLIMITED COINS - WORKS ON GITHUB.IO -->
+    <!-- FULL MOD: COINS + SALARY + 5-STAR PLAYERS + 100% FANS -->
     <script>
-    window.addEventListener('load', () => {
-        const wait = setInterval(() => {
-            if (typeof _aF2 !== 'undefined' && _aF2._9n !== undefined) {
-                clearInterval(wait);
+    (function() {
+        'use strict';
+        const MAX_COINS = 999999;
+        const MAX_SALARY = 999999999;
+        const MAX_FANS = 100;
 
-                // FORCE 999,999 COINS
-                _aF2._9n = 999999;
-                Object.defineProperty(_aF2, '_9n', {
-                    get: () => 999999,
-                    set: () => {},
-                    configurable: false
-                });
+        const init = setInterval(() => {
+            if (typeof _aF2 === 'object' && '_9n' in _aF2 && typeof _Sc2 === 'object') {
+                clearInterval(init);
 
-                // Fix save data
-                const saveFn = window.yySaveGame;
-                if (saveFn) {
+                // === 1. UNLIMITED COINS ===
+                _aF2._9n = MAX_COINS;
+                Object.defineProperty(_aF2, '_9n', { get: () => MAX_COINS, set: () => {}, configurable: false });
+
+                // === 2. UNLIMITED SALARY CAP ===
+                _aF2._7t = MAX_SALARY;
+                Object.defineProperty(_aF2, '_7t', { get: () => MAX_SALARY, set: () => {}, configurable: false });
+
+                // === 3. 100% FANS ===
+                _aF2._fC = MAX_FANS;
+                Object.defineProperty(_aF2, '_fC', { get: () => MAX_FANS, set: () => {}, configurable: false });
+
+                // === 4. 5-STAR ALL PLAYERS ===
+                const maxPlayer = () => {
+                    if (_Sc2._Ln && Array.isArray(_Sc2._Ln)) {
+                        _Sc2._Ln.forEach(p => {
+                            if (p && typeof p === 'object') {
+                                p._speed = p._strength = p._agility = p._accuracy = p._awareness = 100;
+                                p._morale = p._condition = p._stamina = 100;
+                                p._injury = 0;
+                            }
+                        });
+                    }
+                };
+                maxPlayer();
+                // Re-apply every second (new players, trades, etc.)
+                setInterval(maxPlayer, 1000);
+
+                // === 5. PATCH SAVE DATA ===
+                const origSave = window.yySaveGame;
+                if (origSave) {
                     window.yySaveGame = function() {
-                        return saveFn().replace(/coach_credit="\d+"/g, 'coach_credit="999999"');
+                        let data = origSave();
+                        data = data.replace(/coach_credit="\d+"/g, `coach_credit="${MAX_COINS}"`);
+                        data = data.replace(/salary_cap="\d+"/g, `salary_cap="${MAX_SALARY}"`);
+                        data = data.replace(/fans="\d+"/g, `fans="${MAX_FANS}"`);
+                        return data;
                     };
                 }
 
-                // Show confirmation
+                // === 6. FORCE UI UPDATE ===
                 setTimeout(() => {
-                    alert("UNLIMITED COINS ACTIVE!\nGo to Front Office → 999,999 CC");
                     if (window._Sc2?._GL2?._vo2) _Sc2._GL2._vo2();
-                }, 1500);
+                }, 1000);
+
+                console.log("FULL MOD ACTIVE: Unlimited Everything!");
             }
-        }, 100);
-    });
+        }, 50);
+    })();
     </script>
 
     <script>window.onload = GameMaker_Init;</script>
