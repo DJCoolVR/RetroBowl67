@@ -119,5 +119,35 @@
     })();
 </script>
 
+        <script>
+// === PERMANENT UNLIMITED COACH CREDITS (COINS) ===
+window.addEventListener('load', function () {
+    const wait = setInterval(() => {
+        if (window._aF2 && typeof _aF2._9n !== 'undefined') {
+            clearInterval(wait);
+
+            // 1. Force unlimited credits in memory
+            Object.defineProperty(_aF2, '_9n', {
+                get: () => 999999,
+                set: () => {},
+                configurable: false
+            });
+
+            // 2. Patch save data string
+            const originalSave = window.yySaveGame || window.buildSaveString;
+            if (originalSave) {
+                window.yySaveGame = window.buildSaveString = function () {
+                    let save = originalSave.apply(this, arguments);
+                    return save.replace(/coach_credit="\d+"/g, 'coach_credit="999999"');
+                };
+            }
+
+            // 3. Force UI update
+            if (window._Sc2?._GL2?._vo2) _Sc2._GL2._vo2();
+            console.log("Unlimited Credits Active!");
+        }
+    }, 50);
+});
+</script>
     </body>
 </html>
