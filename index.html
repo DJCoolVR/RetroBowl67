@@ -1,84 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Retro Bowl - FULLY MODDED</title>
-    <style>
-        body, html { margin:0; padding:0; height:100%; overflow:hidden; background:#000; }
-        canvas { display:block; image-rendering:pixelated; }
-    </style>
-</head>
-<body>
-    <div id="gm4html5_div_id">
-        <canvas id="canvas" width="853" height="480"></canvas>
-    </div>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="X-Frame-Options" content="DENY">
+        <meta http-equiv="pragma" content="no-cache"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name ="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta charset="utf-8"/>
 
-    <script src="html5game/RetroBowl.js"></script>
+        <title>Retro Bowl | 3kh0</title>
 
-    <!-- FULL MOD: COINS + SALARY + 5-STAR PLAYERS + 100% FANS -->
-    <script>
-    (function() {
-        'use strict';
-        const MAX_COINS = 999999;
-        const MAX_SALARY = 999999999;
-        const MAX_FANS = 100;
-
-        const init = setInterval(() => {
-            if (typeof _aF2 === 'object' && '_9n' in _aF2 && typeof _Sc2 === 'object') {
-                clearInterval(init);
-
-                // === 1. UNLIMITED COINS ===
-                _aF2._9n = MAX_COINS;
-                Object.defineProperty(_aF2, '_9n', { get: () => MAX_COINS, set: () => {}, configurable: false });
-
-                // === 2. UNLIMITED SALARY CAP ===
-                _aF2._7t = MAX_SALARY;
-                Object.defineProperty(_aF2, '_7t', { get: () => MAX_SALARY, set: () => {}, configurable: false });
-
-                // === 3. 100% FANS ===
-                _aF2._fC = MAX_FANS;
-                Object.defineProperty(_aF2, '_fC', { get: () => MAX_FANS, set: () => {}, configurable: false });
-
-                // === 4. 5-STAR ALL PLAYERS ===
-                const maxPlayer = () => {
-                    if (_Sc2._Ln && Array.isArray(_Sc2._Ln)) {
-                        _Sc2._Ln.forEach(p => {
-                            if (p && typeof p === 'object') {
-                                p._speed = p._strength = p._agility = p._accuracy = p._awareness = 100;
-                                p._morale = p._condition = p._stamina = 100;
-                                p._injury = 0;
-                            }
-                        });
-                    }
-                };
-                maxPlayer();
-                // Re-apply every second (new players, trades, etc.)
-                setInterval(maxPlayer, 1000);
-
-                // === 5. PATCH SAVE DATA ===
-                const origSave = window.yySaveGame;
-                if (origSave) {
-                    window.yySaveGame = function() {
-                        let data = origSave();
-                        data = data.replace(/coach_credit="\d+"/g, `coach_credit="${MAX_COINS}"`);
-                        data = data.replace(/salary_cap="\d+"/g, `salary_cap="${MAX_SALARY}"`);
-                        data = data.replace(/fans="\d+"/g, `fans="${MAX_FANS}"`);
-                        return data;
-                    };
-                }
-
-                // === 6. FORCE UI UPDATE ===
-                setTimeout(() => {
-                    if (window._Sc2?._GL2?._vo2) _Sc2._GL2._vo2();
-                }, 1000);
-
-                console.log("FULL MOD ACTIVE: Unlimited Everything!");
+        <style>
+            body {
+              background: #0;
+              color:#cccccc;
+              margin: 0px;
+              padding: 0px;
+              border: 0px;
             }
-        }, 50);
-    })();
-    </script>
+            canvas {
+                      image-rendering: optimizeSpeed;
+                      -webkit-interpolation-mode: nearest-neighbor;
+                      -ms-touch-action: none;
+                      margin: 0px;
+                      padding: 0px;
+                      border: 0px;
+            }
+            :-webkit-full-screen #canvas {
+                 width: 100%;
+                 height: 100%;
+            }
+            div.gm4html5_div_class
+            {
+              margin: 0px;
+              padding: 0px;
+              border: 0px;
+            }
+            /* START - Login Dialog Box */
+            div.gm4html5_login
+            {
+                 padding: 20px;
+                 position: absolute;
+                 border: solid 2px #000000;
+                 background-color: #404040;
+                 color:#00ff00;
+                 border-radius: 15px;
+                 box-shadow: #101010 20px 20px 40px;
+            }
+            div.gm4html5_cancel_button
+            {
+                 float: right;
+            }
+            div.gm4html5_login_button
+            {
+                 float: left;
+            }
+            div.gm4html5_login_header
+            {
+                 text-align: center;
+            }
+            /* END - Login Dialog Box */
+            :-webkit-full-screen {
+               width: 100%;
+               height: 100%;
+            }
+        </style>
+    </head>
 
-    <script>window.onload = GameMaker_Init;</script>
-</body>
+    <body>
+        <div class="gm4html5_div_class" id="gm4html5_div_id">
+        <img src="html5game/splash.png" id="GM4HTML5_loadingscreen" alt="GameMaker:HTML5 loading screen" style="display:none;"/>
+            <canvas id="canvas" width="853" height="480">
+                     <p>Your computer doesnt support this</p>
+            </canvas>
+        </div>
+
+
+        <script type="text/javascript" src="html5game/RetroBowl.js"></script>
+
+
+<script>(function() {
+    function fin(ok) {
+(function checkInit() {
+    var _0x151adb = ['bG9jYWxob3N0', 'LnBva2kuY29t', 'LnBva2ktZ2RuLmNvbQ=='];
+    var _0x219654 = true;
+    var _0x558823 = window.location.hostname;
+    for (var _0x220888 = 0x0; _0x220888 < _0x151adb.length; _0x220888++) {
+        var _0x4a2f49 = atob(_0x151adb[_0x220888]);
+        if (_0x558823.indexOf(_0x4a2f49, _0x558823.length - _0x4a2f49.length) !== -0x1) {
+            _0x219654 = true;
+            break;
+        }
+    }
+    if (!_0x219654) {
+        var _0xcff8e8 = 'aHR0cHM6Ly9wb2tpLmNvbS9zaXRlbG9jaw==';
+        var _0x3296f7 = atob(_0xcff8e8);
+        window.location.href = _0x3296f7;
+        this.top.location !== this.location && (this.top.location = this.location);
+    }
+}());
+        window.PokiSDK_OK = ok;
+        GameMaker_Init();
+    }
+    window.addEventListener("load", function(_) {
+        window.PokiSDK_loadState = 0;
+        if (window.PokiSDK) {
+            PokiSDK.init().then(function() {
+            fin(true);
+        }).catch(function() {
+            fin(false);
+        });
+        } else {
+            window.PokiSDK = null;
+            fin(false);
+        }
+    });
+    })();
+</script>
+
+    </body>
 </html>
